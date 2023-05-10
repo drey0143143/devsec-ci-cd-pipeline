@@ -10,7 +10,7 @@ on:
         type: string
 jobs:
   # Kics performs static code analysis of Infrastructure of Code (Terraform).
-  # More details can be found here https://docs.kics.io/latest/
+  # More details can be found here https://docs.kics.io/latests/
   kics:
     name: Run KICS Code Analysis
     runs-on: ubuntu-20.04
