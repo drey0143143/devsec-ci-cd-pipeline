@@ -10,7 +10,7 @@ module "wafv2" {
   environment               = "DEV"
   functionality             = "WAFv2"
   enabled                   = false
-  name_prefix               = "reinvent"
+  name_prefix               = "reinvent-aws"
   description               = "WAFv2 to protect internet facing endpoints"
 
   visibility_config = {
