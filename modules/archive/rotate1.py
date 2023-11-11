@@ -106,3 +106,127 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps('Inactive user check completed')
     }
+
+
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEncryptDecryptSpecificKey",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt"
+            ],
+            "Resource": "arn:aws:kms:us-east-1:678564198086:key/74506a64-1d06-4fce-8198-eddd8be037e4"
+        }
+    ]
+}
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey",
+      "kms:Decrypt"
+    ],
+    "Resource": [
+      "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab",
+      "arn:aws:kms:us-west-2:111122223333:key/0987dcba-09fe-87dc-65ba-ab0987654321"
+    ]
+  }
+}
+
+
+
+
+#deny getobject or put object if ipaddrews is wrong
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenyGetObjectUnlessSpecificIP",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::s3-testing-testingw/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": "165.225.216.165"
+                }
+            }
+        }
+    ]
+}
+
+# DenyAccessToDocumentFolder
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyAccessToDocumentFolder",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::s3-testing-testingw/Document/*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "123.123.123.123/32"
+        }
+      }
+    }
+  ]
+}
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyAccessToDocumentFolders",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": [
+        "arn:aws:s3:::s3-testing-testingw/Document/*",
+        "arn:aws:s3:::s3-testing-testingw/Document1/*"
+      ],
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "123.123.123.123/32"
+        }
+      }
+    }
+  ]
+}
+
+#DenyAccessToDocumentFolders
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyAccessToDocumentFolders",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": [
+        "arn:aws:s3:::s3-testing-testingw/Document/*",
+        "arn:aws:s3:::s3-testing-testingw/Document1/*"
+      ],
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "123.123.123.123/32"
+        }
+      }
+    }
+  ]
+}
