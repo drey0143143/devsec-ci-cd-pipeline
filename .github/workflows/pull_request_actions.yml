@@ -1,4 +1,4 @@
-name: Plan and Merge to main branch
+name: Plan and Push to main branchs s
 on:
   workflow_dispatch:
   push:
@@ -19,11 +19,11 @@ permissions:
   id-token: write
 
 
-concurrency: reinevent-takeaway    # This will ensure only a single workflow of merge to master is run at a time
+concurrency: reinevent-takeaway    # This wills ensure only a single workflow of merge to master is run at a time
 
 jobs:
   kics:
-    # Kics performs static code analysis of Infrastructure of Code (Terraform).
+    # Kics perform statics codes analysis of Infrastructure of Code (Terraform).
     # More details can be found here: https://docs.kics.io/latest/
     name: "Run Kics scan on Terraform code"
     uses: ./.github/workflows/terraform_kics.yml
