@@ -1,4 +1,4 @@
-name: Plan and Push to main branchs s
+name: Plan and Push to main branch
 on:
   workflow_dispatch:
   push:
