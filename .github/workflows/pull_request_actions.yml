@@ -30,7 +30,7 @@ jobs:
     with:
       # Enabling Comments will add a comment to a PR, but these do no exist in Push events and will throw an error.
       ENABLE_COMMENTS: true
-      WORKING_DIRECTORY: 'infrastructure/region/waf'
+      WORKING_DIRECTORY: 'modules/wafv2'
 
   plan:
     name: "Terragrunt Init,Validate and Plan"
