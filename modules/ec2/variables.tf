@@ -22,3 +22,8 @@ variable "security_group_name" {
   description = "Name of the security group for Nginx instances"
   type        = string
 }
+
+variable "aws_region" {
+  description = " Name of the region to create resources"
+  type        = string
+}
