@@ -82,38 +82,6 @@ jobs:
          terragrunt show tfplan
         continue-on-error: true 
 
-      - name: Format plan
-        if: steps.plan.outcome == 'success' || steps.plan.outcome == 'failure'
-        id: formatplan
-        run: |
-          if [[ "${{steps.plan.outcome}}" == "success" ]]; then
-             plan=$(echo "${{steps.plan.outputs.stdout}}" | sed -E 's/^([[:space:]]+)([-+])/\2\1/g')
-             echo "PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
-             echo "***Plan Output***:<details><summary>Show Plan Success</summary>" >> $GITHUB_ENV
-             echo "${plan:0:65536}" >> $GITHUB_ENV
-             echo "EOF" >> $GITHUB_ENV
-
-          else
-             plan="${{ steps.plan.outputs.stderr }}"
-             if echo "${plan}" | grep -q '^Error: '; then
-               error_section=$(echo "${plan}" | sed -n '/^Error:/,$p' | head -n 100)
-               echo "PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
-               echo "${error_section}" >> $GITHUB_ENV
-               echo "EOF" >> $GITHUB_ENV
-             fi
-          fi
-
-      - name: Post Plan
-        if: steps.plan.outcome == 'failure' || steps.plan.outcome == 'success'
-        uses: robburger/terraform-pr-commenter@v1.5.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXPAND_SUMMARY_DETAILS: 'true' # Override global environment variable; expand details just for this step
-        with:
-          commenter_type: plan
-          commenter_input: ${{ env.PLAN_OUTPUT }}
-          commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
-
   apply:
     name: "Terragrunt Apply"
     if: github.event_name == 'push'
