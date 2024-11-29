@@ -1,4 +1,4 @@
-name: Plan and Push to main branchs s
+name: Plan and Push to main branch
 on:
   workflow_dispatch:
   push:
@@ -14,7 +14,7 @@ env:
   TERRAFORM_WORKING_DIR: './applied/accounts/reinvent-takeaway/environment/'
 
 permissions:
-  contents: write       # write permissions are needed in order to commit changes back to the branches
+  contents: write       # write permissions are needed in order to commit changes back to the branches/
   issues: write         # write permissions are needed in order to create comments
   id-token: write
 
@@ -30,7 +30,7 @@ jobs:
     with:
       # Enabling Comments will add a comment to a PR, but these do no exist in Push events and will throw an error.
       ENABLE_COMMENTS: true
-      WORKING_DIRECTORY: 'infrastructure/region/waf'
+      WORKING_DIRECTORY: 'modules/wafv2'
 
   plan:
     name: "Terragrunt Init,Validate and Plan"
@@ -77,8 +77,11 @@ jobs:
 
       - name: Terragrunt Plan
         id: plan
-        run: terragrunt run-all plan -no-color --terragrunt-non-interactive
-  
+        run: |
+         terragrunt run-all plan -no-color --terragrunt-non-interactive >/dev/null -out=tfplan #terragrunt run-all plan -no-color --terragrunt-non-interactive
+         terragrunt show tfplan
+        continue-on-error: true 
+
   apply:
     name: "Terragrunt Apply"
     if: github.event_name == 'push'
